@@ -1,0 +1,17 @@
+<div class="min-h-screen flex items-center justify-center bg-gray-100 p-4">
+  <div class="bg-white p-8 rounded-lg shadow-xl w-full max-w-md text-center">
+    <h2 class="text-3xl font-extrabold text-gray-900 mb-8">Choisissez un Salon</h2>
+
+    <div class="space-y-4">
+      <button
+        *ngFor="let room of rooms"
+        (click)="selectRoom(room)"
+        class="w-full py-3 px-4 border border-transparent text-lg font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out shadow-md"
+      >
+        {{ room.name }}
+      </button>
+    </div>
+
+    <p class="mt-8 text-gray-600 text-sm">Cliquez sur un salon pour le sélectionner.</p>
+  </div>
+</div>

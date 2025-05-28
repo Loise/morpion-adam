@@ -27,6 +27,7 @@ jobs:
 
     - name: Deploy to gh pages
       run: |
-        cd front && npx angular-cli-ghpages --dir=dist/morpion-adam
+        cd front && npx angular-cli-ghpages --dir=dist/morpion-adam --no-silent
       env:
+        CI: true
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

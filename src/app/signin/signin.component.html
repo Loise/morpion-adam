@@ -1,12 +1,56 @@
 <div>
   <h2>Signin</h2>
   <form (ngSubmit)="onSubmit()">
+    <h3>Choisis ton avatar :</h3>
+    <div class="avatars">
+      <img
+        *ngFor="let avatar of avatarList"
+        [src]="avatar"
+        [class.selected]="avatar === selectedAvatar"
+        (click)="selectAvatar(avatar)"
+        width="100"
+        height="100"
+        style="
+          cursor: pointer;
+          margin: 10px;
+          border-radius: 50%;
+          border: 2px solid transparent;
+        "
+      />
+    </div>
+
+    <label for="username">Pseudo:</label>
+    <input
+      type="text"
+      id="username"
+      [(ngModel)]="username"
+      name="username"
+      required
+    />
+
     <label for="email">Email:</label>
-    <input type="text" id="email" [(ngModel)]="email" name="email" required>
+    <input
+      type="email"
+      id="email"
+      [(ngModel)]="email"
+      name="email"
+      required
+    />
 
-    <label for="password">Password:</label>
-    <input type="password" id="password" [(ngModel)]="password" name="password" required>
+    <label for="password">Mot de passe:</label>
+    <input
+      type="password"
+      id="password"
+      [(ngModel)]="password"
+      name="password"
+      required
+    />
 
-    <button type="submit">Signin</button>
+    <button type="submit">S’inscrire</button>
   </form>
+
+  <!-- Bouton pour rediriger vers la page de connexion -->
+  <!--<button (click)="navigateToLogin()" class="btn btn-primary btn-warning">
+    Vous avez déjà un compte ?
+  </button>-->
 </div>

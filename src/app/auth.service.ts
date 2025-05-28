@@ -2,11 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
+import { JwtModule, JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
   providedIn: 'root' // Le service est disponible dans toute l'application
 })
 export class AuthService {
+  public jwtHelper: JwtHelperService = new JwtHelperService();
   // L'URL est maintenant 'http://localhost:3000/user/login' comme dans votre exemple.
   private loginUrl = 'http://localhost:3000/user/login';
 
@@ -38,6 +40,31 @@ export class AuthService {
   storeToken(token: string): void {
     localStorage.setItem('accessToken', token); // Utilisez 'accessToken' comme clé
     console.log('Jeton stocké dans le localStorage sous la clé "accessToken".');
+  }
+
+  public getDecodedToken(): any {
+    const token = localStorage.getItem('accessToken');// Get your token from storage
+    console.log(token);
+    if (token) {
+      return this.jwtHelper.decodeToken(token);
+    }
+    return null;
+  }
+
+  public isAuthenticated(): boolean {
+    const token = localStorage.getItem('accessToken');
+    // Check whether the token is expired and return true or false
+    return !this.jwtHelper.isTokenExpired(token);
+  }
+
+  // Example of accessing claims
+  public getUserId(): string | null {
+    const decodedToken = this.getDecodedToken();
+    console.log(decodedToken)
+    if (decodedToken && decodedToken.userId) { // Assuming 'username' is a claim in your token
+      return decodedToken.userId;
+    }
+    return null;
   }
 
   /**

@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common'; // Nécessaire pour les directiv
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service'; // Assurez-vous que le chemin est correct
 import { HttpClient } from '@angular/common/http';
-
+import { Router } from '@angular/router';
+import { inject } from '@angular/core';
 @Component({
   selector: 'app-login',
   standalone: true, // Marque ce composant comme autonome (Angular 15+)
@@ -20,7 +21,9 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup; // Formulaire réactif pour la connexion
   loading: boolean = false; // Indicateur de chargement
   errorMessage: string | null = null; // Message d'erreur à afficher
-
+  
+ 
+  private router = inject(Router)
   constructor(
     private fb: FormBuilder, // Injecte FormBuilder pour créer le formulaire
     private authService: AuthService // Injecte notre AuthService
@@ -60,7 +63,7 @@ export class LoginComponent implements OnInit {
           this.authService.storeToken(accessToken); // <--- Stocke le jeton
           console.log('Connexion réussie ! Jeton stocké:', accessToken);
           // Vous pouvez rediriger l'utilisateur ici, par exemple:
-          // this.router.navigate(['/dashboard']);
+          this.router.navigate(['/rooms']);
         } else {
           this.errorMessage = 'Connexion réussie, mais aucun jeton valide n\'a été reçu.';
         }
@@ -74,4 +77,9 @@ export class LoginComponent implements OnInit {
       }
     });
   }
+
+  /*navigateToSignin() {
+    this.router.navigate(['/signin']);
+  }*/
+
 }

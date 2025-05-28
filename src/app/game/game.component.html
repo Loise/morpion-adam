@@ -1,0 +1,118 @@
+<div class="game-container">
+    <h2>Morpion en ligne : Salon {{ roomId }}</h2>
+  
+    <!-- Joueurs -->
+    <div *ngIf="playerUsername">
+      <img [src]="playerAvatar" width="80" />
+      <p>{{ playerUsername }}</p>
+    </div>
+    
+    <div *ngIf="opponentUsername">
+      <img [src]="opponentAvatar" width="80" />
+      <p>{{ opponentUsername }}</p>
+    </div>
+    
+
+
+    <div class="players-side">
+      <div class="player-info left">
+        <img/>
+        <p>🧑‍💻 Joueur 1 : {{ playerUsername }}</p>
+      </div>
+  
+      <div class="player-info right">
+        <img/>
+        <p>🧑‍💻 Joueur 2 : {{ opponentUsername }}</p>
+      </div>
+    </div>
+  
+    <!-- Résultat ou tour -->
+    <h3>
+    </h3>
+  
+    <h4>Durée de la partie : </h4>
+  
+    <h3 *ngIf="!winner && isMyTurn">C'est votre tour ({{ playerSymbol }})</h3>
+    <h3 *ngIf="!winner && !isMyTurn">En attente de l'adversaire...</h3>
+  
+    <!-- Plateau -->
+    <div class="board">
+      <div *ngFor="let row of board; let rowIndex = index" class="row">
+        <div *ngFor="let cell of row; let colIndex = index"
+             class="cell"
+             (click)="playMove(rowIndex, colIndex)">
+          {{ cell }}
+        </div>
+      </div>
+    </div>
+    
+    <div *ngIf="gameOver" class="status">
+      <p *ngIf="winner === 'draw'">Match nul !</p>
+      <p *ngIf="winner && winner !== 'draw'">Le joueur {{ winner }} a gagné !</p>
+      <p *ngIf="!winner">Tour du joueur : {{ currentPlayer }}</p>
+      <p>{{ gameDuration }}</p>
+    
+      <button *ngIf="gameOver" (click)="onClickRejouer()">Rejouer</button>
+    </div>
+    
+  
+    <!-- Affichage bouton -->
+    <button
+    (click)="toggleBoxscore()"
+    class="btn-toggle-boxscore"
+    style="margin-top: 20px;"
+    >
+    {{ showBoxscore ? 'Cacher' : 'Afficher' }}le tableau des scores
+    </button>
+  
+    <!-- Tableau des scores -->
+    <div *ngIf="showBoxscore">
+      <h2>Tableau des Scores</h2>
+  
+      <!-- Scores globaux -->
+      <section class="scores">
+        <table>
+          <thead>
+            <tr>
+              <th>Utilisateur</th>
+              <th>Parties jouées</th>
+              <th>Victoires</th>
+              <th>Défaites</th>
+              <th>Matchs nuls</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of users">
+              <td>{{ user.username }}</td>
+              <td>{{ user.gamesPlayed }}</td>
+              <td>{{ user.wins }}</td>
+              <td>{{ user.losses }}</td>
+              <td>{{ user.draws }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+  
+      <!-- Meilleurs joueurs -->
+      <section class="best-users" style="margin-top: 10px;">
+        <h3>Meilleurs utilisateurs</h3>
+        <ul>
+          <li *ngFor="let best of bestUsers">
+            {{ best.username }} — {{ best.wins }} victoires
+          </li>
+        </ul>
+      </section>
+  
+      <!-- Participants de cette partie -->
+      <section class="participants" style="margin-top: 15px;">
+        <h3>Participants à la partie</h3>
+        <ul>
+          <li *ngFor="let p of participants">
+            <img [src]="p.avatar" alt="{{ p.username }}" class="avatar-small" />
+            <strong>{{ p.username }}</strong> — Durée : {{ p.duration }} — Score : {{ p.score }}
+          </li>
+        </ul>
+      </section>
+    </div>
+  </div>
+  

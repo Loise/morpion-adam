@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { NgFor } from '@angular/common';
 import { SocketService } from '../socket.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-rooms',
@@ -9,6 +10,7 @@ import { SocketService } from '../socket.service';
   styleUrl: './rooms.component.css'
 })
 export class RoomsComponent {
+  private router = inject(Router)
   // Liste des salons à afficher
   rooms: { name: string, id: string }[] = [
     { name: 'Salon 1', id: 'room1' },
@@ -29,6 +31,6 @@ export class RoomsComponent {
     console.log(`Vous avez sélectionné le salon: ${room.name} (ID: ${room.id})`);
     // Exemple de logique future :
     // this.router.navigate(['/chat', room.id]);
-    this.socketService.sendMessage("joinRoom", { username: "user name retrieved on token", roomname: room.name });
+    this.router.navigate(['/game/' + room.id]);
   }
 }

@@ -19,7 +19,8 @@ const Game = require("./models/Game");
 
 
 const allowedOrigins = [
-    'https://loise.github.io/morpion-adam/' // L'URL de votre GitHub Pages
+    'https://loise.github.io/morpion-adam/', // L'URL de votre GitHub Pages
+    'http://localhost:4200'
 ];
 
 
@@ -53,6 +54,9 @@ app.use(cors({
 app.use(express.json());
 
 app.use((req, res, next) => {
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(200); // Important: Répondez avec un 200 OK pour le preflight
+  }
   req.requestTime = Date.now();
   next();
 });

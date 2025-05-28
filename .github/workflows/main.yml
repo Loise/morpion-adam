@@ -21,7 +21,7 @@ jobs:
       run: cd front && npm install
 
     - name: Build Angular App
-      run: cd front && npm run build
+      run: cd front && npm run build -- --base-href=/morpion-adam/
     - name: List dist content (for debug)
       run: ls -al front/dist
 

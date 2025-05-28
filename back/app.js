@@ -62,7 +62,7 @@ app.use((req, res, next) => {
 });
 
 app.set("socketio", io);
-
+console.log(process.env.PWD_USER)
 // Connexion MongoDB
 const mongoDB = `mongodb+srv://${process.env.PWD_USER}:${process.env.PWD_BD}@cluster0.mso3mb9.mongodb.net/cesi?retryWrites=true&w=majority`;
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });

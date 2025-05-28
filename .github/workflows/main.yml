@@ -6,6 +6,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # Important: Permet au workflow d'écrire dans le dépôt (pour gh-pages)
+      pages: write # Pour les dépôts qui utilisent GitHub Pages via des workflows
+      id-token: write # Requis si vous utilisez OIDC pour l'authentification (souvent par défaut maintenant)
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
@@ -18,9 +22,11 @@ jobs:
 
     - name: Build Angular App
       run: cd front && npm run build
+    - name: List dist content (for debug)
+      run: ls -al front/dist
 
     - name: Deploy to gh pages
       run: |
         cd front && npx angular-cli-ghpages --dir=dist/morpion-adam
       env:
-        GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

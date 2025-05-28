@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { io, Socket } from 'socket.io-client';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../auth.service';
+import { environment } from '../../environment/environment';
 
 @Component({
   selector: 'app-game',
@@ -50,7 +51,7 @@ export class GameComponent implements OnInit {
 
   ngOnInit(): void {
     // Connexion au serveur socket
-    this.socket = io('http://localhost:3000');
+    this.socket = io(environment.apiUrl);
 
     // Récupération de l'identifiant utilisateur et de la room depuis localStorage
     /*this.roomId = localStorage.getItem('roomId') || '';*/

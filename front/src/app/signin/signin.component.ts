@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { environment } from '../../environment/environment';
 
 
 @Component({
@@ -16,7 +17,7 @@ import { Router } from '@angular/router';
 export class SigninComponent {
   private http = inject(HttpClient);
   private router = inject(Router)
-  readonly url = 'http://localhost:3000/user/signin';
+  readonly url = `${environment.apiUrl}/user/signin`;
   email: string = '';
   username: string = '';
 
@@ -41,7 +42,7 @@ export class SigninComponent {
       avatar: this.selectedAvatar,
     };
     
-    this.http.post('http://localhost:3000/user/signin', userData)
+    this.http.post(`${environment.apiUrl}/user/signin`, userData)
         .subscribe(res => {
           console.log('Utilisateur créé', res);
           this.router.navigate(['/login']);

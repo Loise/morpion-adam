@@ -3,14 +3,14 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { JwtModule, JwtHelperService } from '@auth0/angular-jwt';
-
+import { environment } from '../environment/environment';
 @Injectable({
   providedIn: 'root' // Le service est disponible dans toute l'application
 })
 export class AuthService {
   public jwtHelper: JwtHelperService = new JwtHelperService();
   // L'URL est maintenant 'http://localhost:3000/user/login' comme dans votre exemple.
-  private loginUrl = 'http://localhost:3000/user/login';
+  private loginUrl = `${environment.apiUrl}/user/login`;
 
   constructor(private http: HttpClient) {}
 

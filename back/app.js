@@ -17,19 +17,39 @@ const gameRoutes = require('./routes/game');
 
 const Game = require("./models/Game");
 
+
+const allowedOrigins = [
+    'https://loise.github.io/morpion-adam/' // L'URL de votre GitHub Pages
+];
+
+
 // Serveur + WebSocket
 const server = http.createServer(app);
 const io = socketIo(server, {
-  cors: {
-    origin: "*",
-    methods: ["GET", "POST"],
-  },
+  cors: { // <--- Configuration CORS spécifique à Socket.IO
+    origin: allowedOrigins, // Utilisez la même liste d'origines autorisées que pour Express
+    methods: ["GET", "POST"], // Les méthodes autorisées pour le handshake Socket.IO (GET, POST sont les plus courantes)
+    credentials: true // Important si vous utilisez des cookies ou des sessions pour l'auth
+  }
 });
 
 // Middleware
 dotenv.config();
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors({
+  origin: function (origin, callback) {
+    // Permettre les requêtes sans 'origin' (ex: Postman, requêtes du même domaine)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Méthodes HTTP que vous autorisez
+  allowedHeaders: ['Content-Type', 'Authorization'], // En-têtes que vous autorisez
+  credentials: true // Si vous utilisez des cookies ou des sessions entre frontend et backend
+}));
 app.use(express.json());
 
 app.use((req, res, next) => {

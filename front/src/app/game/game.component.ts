@@ -77,7 +77,7 @@ export class GameComponent implements OnInit {
 
     this.socket.on('play', (data: any) => {
       console.log(data);
-      this.board[data.abs][data.ord] = data.userId === this.userId ? 'X' : '0';
+      this.board[data.abs][data.ord] = data.cross;
   })
 }
 

@@ -27,6 +27,8 @@ jobs:
 
     - name: Deploy to gh pages
       run: |
+        git config --global user.email "loise.fenoll@gmail.com"
+        git config --global user.name "loïse fenoll"
         cd front && npx angular-cli-ghpages --dir=dist/morpion-adam --no-silent
       env:
         CI: true

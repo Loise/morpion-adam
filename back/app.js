@@ -27,6 +27,7 @@ const allowedOrigins = [
 // Serveur + WebSocket
 const server = http.createServer(app);
 const io = socketIo(server, {
+  addTrailingSlash: false,
   cors: { // <--- Configuration CORS spécifique à Socket.IO
     origin: allowedOrigins, // Utilisez la même liste d'origines autorisées que pour Express
     methods: ["GET", "POST"], // Les méthodes autorisées pour le handshake Socket.IO (GET, POST sont les plus courantes)
